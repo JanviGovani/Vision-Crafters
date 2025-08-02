@@ -119,6 +119,17 @@ flutter run
 
 ---
 
+## 🧠 Usage Scenrios
+
+Describing Colors/Objects:
+The app can describe the colors and objects in a scene to a person who is partially blind, helping them to better understand their surroundings.
+
+Raising Alarms:
+In case of hazardous surroundings, the app will raise an alarm to ensure the user is aware of potential dangers.
+
+Conversational Bot:
+The app can act as a conversational bot, describing the surroundings and answering questions to assist a visually impaired person in navigating their environment safely.
+
 ## 🧠 Experimental Approaches
 
 In addition to the primary **Gemini API** implementation, we explored the following experimental features for future development:
