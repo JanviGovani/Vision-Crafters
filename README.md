@@ -1,51 +1,138 @@
-# Visual Aid for Visually Impaired-G38-PS24
-
-## Project Overview
-**Visual Aid for Visually Impaired** is an innovative mobile application designed to assist visually impaired individuals by converting images or videos into descriptive text. The app leverages Visual Language Models (VLM) to analyze the surroundings and provide detailed descriptions. This tool not only helps users understand their environment but also keeps a record of activities for caregivers to review if necessary.
-
-## Team Name
-**Vision Crafters**
-
-## Features
-1. **Scene-to-Text Conversion**: The app captures pictures or videos and processes them using VLM to describe the surroundings.
-2. **User Assistance**: After processing, the app answers user queries related to their environment.
-3. **Hazard Detection**: The app raises alarms in case of hazardous surroundings.
-4. **Conversation Log**: The app maintains a log of interactions with the user for future reference.
-
-## Basic Workflow
-
-1. **Capture Image/Video**:
-    - The user opens the app and uses the mobile device's camera to capture a picture or video of their surroundings.
-  
-2. **Process Input**:
-    - The captured media is processed using VLM to generate a descriptive text of the scene.
-
-3. **Describe Surroundings**:
-    - The app provides an auditory(scene to text) description of the surroundings, detailing colors, objects, and other relevant features.
-
-4. **Query Assistance**:
-    - The user can ask questions about their environment, and the app will respond with relevant information based on the processed data.
-
-5. **Hazard Detection**:
-    - If the app detects any hazardous elements in the surroundings, it will immediately raise an alarm to alert the user.
-
-6. **Log Conversations**:
-    - All interactions and descriptions are logged for future reference, which can be reviewed by caregivers if needed.
-
-## Usage Scenarios
-1. **Describing Colors/Objects**:
-    - The app can describe the colors and objects in a scene to a person who is partially blind, helping them to better understand their surroundings.
-
-2. **Raising Alarms**:
-    - In case of hazardous surroundings, the app will raise an alarm to ensure the user is aware of potential dangers.
-
-3. **Conversational Bot**:
-    - The app can act as a conversational bot, describing the surroundings and answering questions to assist a visually impaired person in navigating their environment safely.
-
-## Requirements
-1. A mobile device with camera capabilities.
-2. Pre-trained Visual Language Models (VLM) for scene-to-text conversion.
-3. Internet connectivity for processing and updates.
-4. Secure storage for maintaining conversation logs.
+# 👁️ Visual Aid for Visually Impaired
 
 
+## 📖 Overview
+**Vision Crafters** is a mobile application that empowers visually impaired individuals with real-time environmental awareness. Using the device's camera and **Gemini API**, the app converts visual input into detailed audio descriptions and provides hazard alerts. It features gesture controls, conversational assistance, and stores interaction logs locally using **SQLite**.
+
+🎥 **[Project Overview Video](https://youtu.be/lGWhG0DqqO4)** – See how Vision Crafters works, its key features, and how it benefits visually impaired users.  
+
+---
+
+## 🧩 Key Features
+- **Scene Understanding & Conversational Assistance**: Describes images/videos and answers environment-related questions using the **Gemini API**.
+- **Text-to-Speech & Speech-to-Text**: Allows audio-based interactions for feedback and queries.
+- **Gesture Controls**: Capture media and interact with the app without needing to press specific buttons.
+- **Hazard Detection**: Alerts users to potential dangers in their environment.
+- **Local Log Storage**: Saves interaction logs locally in **SQLite** for offline review.
+
+---
+
+## 🎯 Target Users & Benefits
+
+**For visually impaired individuals:**
+- Understand surroundings through voice feedback.
+- Navigate safely with real-time hazard alerts.
+- Interact with the app more easily using gesture-based controls.
+
+
+**For caregivers:**
+- Review stored interaction logs for safety and activity insights.
+
+---
+
+## 🔄 Workflow Summary
+
+1. Capture images or videos via the camera or gestures.
+2. Process media through **Gemini API** to describe the scene and detect hazards.
+3. Play audio feedback using TTS.
+4. Handle user queries related to the environment.
+5. Raise alarm if hazardous elements are detected.
+6. Save logs locally using **SQLite** for offline access.
+
+<div align="center">
+    <img width="800" alt="Diagram" src="https://github.com/user-attachments/assets/550efafe-6016-46f2-b985-e131a824615f" />
+</div>
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Flutter (built with Flutter 3.21)
+- **Backend**: Firebase Cloud Functions (Python) for Gemini API calls
+- **AI API**: Vertex AI - Gemini API (via GCP)
+- **Local Storage**: SQLite database
+
+---
+
+## ⚙️ Prerequisites
+
+- [Flutter](https://docs.flutter.dev/get-started/install) (built with 3.21)
+- [Python 3.11](https://www.python.org/downloads/)
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
+- [Firebase CLI](https://firebase.google.com/docs/cli)
+- [FlutterFire CLI](https://firebase.google.com/docs/flutter/setup?platform=android#install-cli-tools)
+- [GCP](https://cloud.google.com) project with Vertex AI API & billing enabled  
+> ⚠️ Vertex AI is a paid service
+- [Firebase](https://firebase.google.com/) project (for local Firebase Cloud Functions)
+
+---
+
+## 🚀 Setup Instructions
+
+### 1️⃣ Flutter App Setup
+
+```bash
+git clone https://github.com/vision-crafters/VisionCrafters-G38.git
+cd VisionCrafters-G38/Flutter
+flutter pub get
+flutterfire configure
+```
+
+- Create a `.env` file in `/Flutter` directory:
+```env
+HOST=<your-ip-address>
+```
+> Use the IPv4 address of the machine running Firebase Emulators.
+
+### 2️⃣ Backend Setup (Firebase Cloud Functions)
+
+```bash
+cd ../Backend/functions
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+pip install -r requirements.txt
+```
+
+- Add your Gemini API key:
+```env
+GOOGLE_API_KEY=<your-api-key>
+```
+in `Backend/functions/.env`.
+
+---
+
+## ▶️ Running the Project
+
+### Start Firebase Emulators:
+```bash
+cd ../
+firebase emulators:start
+```
+
+### Build & run the app:
+```bash
+cd ../Flutter
+flutter run
+```
+
+> ⚠️ **Use a physical Android device** for video capture testing.
+
+---
+
+## 🧠 Experimental Approaches
+
+In addition to the primary **Gemini API** implementation, we explored the following experimental features for future development:
+
+- **Local Vision-Language Model (VLM)**: A **Flask server** is used to serve a locally hosted Vision-Language Model. The model processes video input by extracting keyframes using **ffprobe** (part of **ffmpeg**). This approach does not perform as well as the Gemini API, especially for video understanding.
+
+- **Retrieval-Augmented Generation (RAG) Pipeline**: We implemented a **RAG pipeline** where keywords extracted from images and user query are used to search for relevant information on **Wikipedia**. The search results are then embedded and stored in Pinecone, allowing for real-time retrieval and use in generating responses. The pipeline has challenges with response time and scalability, making it unsuitable for use in its current form.
+
+For the **local VLM** setup (experimental):
+- Ensure **ffmpeg/ffprobe** is installed on your machine for video processing.
+- Set up the Flask server inside a Python virtual environment to serve the local model.
+- Add the following keys to the `.env` file in the `Backend/functions` directory:
+  ```env
+  HUGGINGFACE_INFERENCE_API_KEY=<your-api-key>  # For embedding model
+  PINECONE_API_KEY=<your-api-key>   # For RAG pipeline
+  API=<server-url>  # For communicating with Flask server
+  ```
